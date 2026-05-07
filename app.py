@@ -44,6 +44,7 @@ def fetch_financial_data(tickers, period):
 st.title("🛡️ 2026 US Market AI-Energy Smart Surveillance")
 st.markdown(f"<div class='status-bar'>SYSTEM STATUS: ACTIVE | DATABASE: YAHOO FINANCE | LAST UPDATED: {datetime.now().strftime('%Y-%m-%d %H:%M')}</div>", unsafe_allow_html=True)
 st.write("")
+st.warning("🔄 正在嘗試從 Yahoo Finance 抓取資料，如果卡在這裡，代表雲端 IP 被擋了！")
 
 # Sidebar Parameters
 with st.expander("📡 Surveillance Parameters"):

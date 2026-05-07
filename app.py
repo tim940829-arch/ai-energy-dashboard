@@ -2,6 +2,7 @@ import streamlit as st
 import yfinance as yf
 import pandas as pd
 import plotly.express as px
+import requests
 from datetime import datetime
 
 # ==========================================
@@ -30,12 +31,18 @@ sectors = {
 all_tickers = [ticker for sublist in sectors.values() for ticker in sublist]
 
 # ==========================================
-# 3. Data Fetching Module
+# 3. Data Fetching Module (加裝防護罩版本)
 # ==========================================
 @st.cache_data(ttl=3600)
 def fetch_financial_data(tickers, period):
-    # Using 'Close' to ensure data consistency
-    raw_data = yf.download(tickers, period=period)['Close']
+    # 建立一個假的瀏覽器 Session
+    session = requests.Session()
+    session.headers.update({
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    })
+    
+    # 使用假 session 抓資料，並關閉多線程 (threads=False) 避免雲端主機當機
+    raw_data = yf.download(tickers, period=period, session=session, threads=False)['Close']
     return raw_data
 
 # ==========================================
